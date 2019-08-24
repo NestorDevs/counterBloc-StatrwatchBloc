@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bloc_example/action_button.dart';
 import 'blocs/counter_bloc.dart';
-// import 'flutter_bloc/bloc_builder.dart';
-// import 'flutter_bloc/bloc_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CounterScreenWithGlobalState extends StatelessWidget {
@@ -36,10 +34,8 @@ class CounterScaffold extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Center(
-          child: BlocBuilder(
-        bloc: counterBloc,
-        builder: (BuildContext context, int state) {
+      body: Center(child: BlocBuilder<CounterBloc, int>(
+        builder: (context, state) {
           return Text('$state',
               style: TextStyle(fontSize: 100.0, fontWeight: FontWeight.bold));
         },

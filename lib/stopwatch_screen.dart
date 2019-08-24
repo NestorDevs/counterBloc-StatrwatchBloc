@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'action_button.dart';
-import 'blocs/stopwatch_bloc.dart';
-// import 'flutter_bloc/bloc_provider.dart';
-// import 'flutter_bloc/bloc_builder.dart';
-// import 'flutter_bloc/bloc_listener.dart';
+import 'blocs/stopwatch/stopwatch_bloc.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -42,9 +39,8 @@ class StopwatchScaffold extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: BlocListener<StopwatchEvent, StopwatchState>(
-        bloc: stopwatchBloc,
-        listener: (BuildContext context, StopwatchState state) {
+      body: BlocListener<StopwatchBloc, StopwatchState>(
+        listener: (context, state) {
           if (state.isSpecial) {
             Scaffold.of(context).showSnackBar(SnackBar(
               backgroundColor: Colors.lightGreenAccent,
@@ -57,9 +53,8 @@ class StopwatchScaffold extends StatelessWidget {
           }
         },
         child: Center(
-          child: BlocBuilder(
-            bloc: stopwatchBloc,
-            builder: (BuildContext context, StopwatchState state) {
+          child: BlocBuilder<StopwatchBloc, StopwatchState>(
+            builder: (context, state) {
               return Text(state.timeFormated,
                   style: TextStyle(fontSize: 60, fontWeight: FontWeight.bold));
             },
@@ -69,14 +64,12 @@ class StopwatchScaffold extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: EdgeInsets.all(16.0),
-        child: BlocBuilder(
-          bloc: stopwatchBloc,
-          condition:
-              (StopwatchState previousState, StopwatchState currentState) {
+        child: BlocBuilder<StopwatchBloc, StopwatchState>(
+          condition: (previousState, currentState) {
             return previousState.isInitial != currentState.isInitial ||
                 previousState.isRunning != currentState.isRunning;
           },
-          builder: (BuildContext context, StopwatchState state) {
+          builder: (context, state) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
